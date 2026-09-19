@@ -12,9 +12,3 @@ WS_API_URL = "ws://supervisor/core/websocket"
 
 WEB_HOST = "0.0.0.0"
 WEB_PORT = 8101
-
-EXCLUDED_INTERFACES = {
-    "lo",
-    "docker0",
-    "hassio",
-}
