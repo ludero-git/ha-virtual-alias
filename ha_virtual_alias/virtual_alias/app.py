@@ -146,8 +146,16 @@ class App:
         state.ip = device.ip
         state.last_confirmed = now
 
-        if changed:
-            state.last_updated = now
+        if not changed:
+            LOGGER.debug(
+                "Device confirmed unchanged: %s -> %s (%s)",
+                device.mac,
+                device.ip,
+                device.hostname,
+            )
+            return
+
+        state.last_updated = now
 
         LOGGER.info(
             "Device changed: %s -> %s (%s)",
