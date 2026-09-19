@@ -1,4 +1,4 @@
-# <img width="50" height="50" align="absmiddle" alt="Logo" src="https://raw.githubusercontent.com/ludero-git/ha-virtual-alias/main/ha_virtual_alias/icon.png" /> HA ACE Service Installer
+# <img width="50" height="50" align="absmiddle" alt="Logo" src="https://raw.githubusercontent.com/ludero-git/ha-virtual-alias/main/ha_virtual_alias/icon.png" /> HA Virtual Alias
 
 [![Latest Version][version-shield]][repository]
 [![Supports aarch64 Architecture][aarch64-shield]][repository]
