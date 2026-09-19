@@ -65,8 +65,17 @@ class Discovery:
         if self.ws_api.ws is not None:
             await self.ws_api.close()
 
+    def _normalize_hostname(self, hostname):
+        if hostname is None:
+            return None
+
+        hostname = hostname.rstrip(".").lower().removesuffix(".home")
+
+        return hostname
+
     async def found_device(self, mac, ip, hostname=None):
         mac = mac.lower()
+        hostname = self._normalize_hostname(hostname)
 
         if mac not in self.macs:
             return
