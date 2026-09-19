@@ -67,6 +67,10 @@
                 }
             }
         },
+        "timeout_seconds": {
+            "name": "Device timeout",
+            "description": "Timeout in seconds before marking a device as unknown."
+        },
         "log_level": {
             "name": "Log level",
             "description": "Controls the amount of logging."
