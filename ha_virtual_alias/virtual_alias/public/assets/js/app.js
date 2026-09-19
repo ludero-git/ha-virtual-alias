@@ -96,12 +96,15 @@ async function loadEntries() {
     } catch (err) {
         console.error("could not load entries:", err);
     } finally {
-        // Finish the current spin before stopping.
-        await new Promise(resolve => {
-            el.refreshBtn.addEventListener("animationiteration", resolve, {
-                once: true,
-            });
-        });
+        // Finish the current spin before stopping. Fallback of 800ms to prevent race time issues.
+        await Promise.race([
+            new Promise(resolve =>
+                el.refreshBtn.addEventListener("animationiteration", resolve, {
+                    once: true,
+                })
+            ),
+            new Promise(resolve => setTimeout(resolve, 800)),
+        ]);
 
         el.refreshBtn.classList.remove("spinning");
     }

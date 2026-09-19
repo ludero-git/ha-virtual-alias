@@ -165,6 +165,8 @@ class DNSRouting:
             ]
         )
 
+        LOGGER.debug("DNS Routing started")
+
     async def stop(self):
         if self.servers is not None:
             await self._set_ha_servers(self.servers)
@@ -176,7 +178,10 @@ class DNSRouting:
 
             self.servers = None
 
+        await self.rest_api.close()
         await self._stop_dnsmasq()
+
+        LOGGER.debug("DNS Routing stopped")
 
     async def set_route(self, hostname, ip):
         if self.routes.get(hostname) == ip:
@@ -186,6 +191,12 @@ class DNSRouting:
 
         await self.apply()
 
+        LOGGER.info(
+            "Routing %s to %s",
+            hostname,
+            ip,
+        )
+
     async def remove_route(self, hostname):
         if hostname not in self.routes:
             return
@@ -193,6 +204,11 @@ class DNSRouting:
         del self.routes[hostname]
 
         await self.apply()
+
+        LOGGER.info(
+            "Removed route for %s",
+            hostname,
+        )
 
     async def apply(self):
         async with self._apply_lock:
