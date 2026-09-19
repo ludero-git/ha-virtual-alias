@@ -10,6 +10,7 @@
 
 - Improved DNS routing logging for more consistency and useful diagnostics.
 - Normalize MAC address casing for consistentcy.
+- Moved hardcoded excluded interface defaults into the configuration.
 
 ### Fixed
 
