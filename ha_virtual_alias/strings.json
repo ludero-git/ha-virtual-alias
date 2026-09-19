@@ -1,0 +1,75 @@
+{
+    "configuration": {
+        "aliases": {
+            "name": "Aliases",
+            "description": "Devices with a persistent virtual IP, hostname, or both.",
+            "fields": {
+                "friendly_name": {
+                    "name": "Friendly name",
+                    "description": "Friendly nickname for the device."
+                },
+                "mac": {
+                    "name": "MAC address",
+                    "description": "MAC address of the device."
+                },
+                "virtual_ip": {
+                    "name": "Virtual IP",
+                    "description": "Virtual IP assigned to the device. It is recommended to use an address from the 198.18.0.0/15 range."
+                },
+                "virtual_hostname": {
+                    "name": "Virtual hostname",
+                    "description": "Hostname assigned to the device. It is recommended to use the .home.arpa domain, for example device.home.arpa."
+                }
+            }
+        },
+        "arp_discovery": {
+            "name": "ARP discovery",
+            "description": "Find devices by scanning local networks with ARP.",
+            "fields": {
+                "enabled": {
+                    "name": "Enabled",
+                    "description": "Enable ARP discovery."
+                },
+                "interval_seconds": {
+                    "name": "Scan interval",
+                    "description": "Seconds between ARP scans."
+                },
+                "exclude_interfaces": {
+                    "name": "Excluded interfaces",
+                    "description": "Network interfaces to skip during ARP scans."
+                }
+            }
+        },
+        "home_assistant_discovery": {
+            "name": "Home Assistant discovery",
+            "description": "Use devices discovered by Home Assistant.",
+            "fields": {
+                "enabled": {
+                    "name": "Enabled",
+                    "description": "Enable Home Assistant discovery."
+                },
+                "include_zeroconf": {
+                    "name": "Include Zeroconf",
+                    "description": "Include devices discovered through Zeroconf."
+                }
+            }
+        },
+        "webui": {
+            "name": "Web interface",
+            "fields": {
+                "log_lines": {
+                    "name": "Log lines",
+                    "description": "Maximum number of log lines shown in the web interface."
+                },
+                "humanize_datetime": {
+                    "name": "Humanize dates",
+                    "description": "Show dates as relative time, like \"5 minutes ago\"."
+                }
+            }
+        },
+        "log_level": {
+            "name": "Log level",
+            "description": "Controls the amount of logging."
+        }
+    }
+}

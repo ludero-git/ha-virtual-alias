@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Alias</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+    <div class="page">
+
+        <header>
+            <div class="brand">
+                <img src="./assets/img/icon.png" width="26" height="26" alt="Virtual Alias logo">
+                <h1>Virtual Alias</h1>
+            </div>
+            
+            <div class="header-actions">
+                <button class="btn" id="findBtn" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    Find MAC
+                </button>
+                <button class="btn" id="refreshBtn" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10" />
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                    </svg>
+                    Refresh
+                </button>
+            </div>
+        </header>
+
+        <section>
+            <div class="section-head">
+                <h2>Entries</h2>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Friendly name</th>
+                            <th>MAC address</th>
+                            <th>Virtual IP</th>
+                            <th>Virtual hostname</th>
+                            <th>Hostname</th>
+                            <th>IP</th>
+                            <th>Last updated</th>
+                            <th>Last confirmed</th>
+                        </tr>
+                    </thead>
+                    <tbody id="entriesBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-head">
+                <h2>Logs</h2>
+                <div class="section-actions">
+                    <button class="btn" id="clearBtn" type="button">Clear</button>
+                    <button class="btn" id="hideBtn" type="button">Hide</button>
+                </div>
+            </div>
+            <div id="logBlock"></div>
+        </section>
+
+        <footer>
+            <span id="versionLabel">v0.0.0</span>
+            <span id="updatedLabel">Updated -</span>
+        </footer>
+
+    </div>
+
+    <div class="modal-overlay hidden" id="findOverlay">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="findTitle">
+            <div class="modal-head">
+                <h2 id="findTitle">Find MAC address</h2>
+                <button class="modal-close" id="findCloseBtn" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label for="findInput">Hostname or IP</label>
+                <input type="text" id="findInput" placeholder="e.g. 192.168.1.20 or myhost" autocomplete="off">
+                <div class="modal-actions">
+                    <button class="btn" id="findCancelBtn" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="findSubmitBtn" type="button">Find</button>
+                </div>
+                <div class="modal-result" id="findResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+name: Virtual Alias
+version: "0.0.1"
+slug: virtual_alias
+description: Persistent virtual hostnames and IPs for LAN devices
+startup: services
+boot: auto
+init: false
+arch:
+  - amd64
+  - aarch64
+ingress: true
+ingress_port: 8101
+panel_icon: mdi:routes
+panel_title: Virtual Alias
+host_network: true
+homeassistant_api: true
+hassio_role: manager
+hassio_api: true
+privileged:
+  - NET_ADMIN
+  - NET_RAW
+apparmor: false
+options:
+  aliases: []
+  arp_discovery:
+    enabled: true
+    interval_seconds: 60
+    exclude_interfaces: []
+  home_assistant_discovery:
+    enabled: true
+    include_zeroconf: false
+  webui:
+    log_lines: 500
+    humanize_datetime: true
+  log_level: info
+schema:
+  aliases:
+    - friendly_name: str
+      mac: str
+      virtual_ip: "str?"
+      virtual_hostname: "str?"
+  arp_discovery:
+    enabled: bool
+    interval_seconds: "int(5,3600)"
+    exclude_interfaces:
+      - "str(1,15)"
+  home_assistant_discovery:
+    enabled: bool
+    include_zeroconf: bool
+  webui:
+    log_lines: "int(50,10000)"
+    humanize_datetime: bool
+  log_level: "list(debug|info|warning|error)"
