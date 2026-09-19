@@ -32,6 +32,7 @@ options:
   webui:
     log_lines: 500
     humanize_datetime: true
+  timeout_seconds: 180
   log_level: info
 schema:
   aliases:
@@ -50,4 +51,5 @@ schema:
   webui:
     log_lines: "int(50,10000)"
     humanize_datetime: bool
+  timeout_seconds: "int(15,10800)"
   log_level: "list(debug|info|warning|error)"

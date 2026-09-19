@@ -40,6 +40,7 @@ class Config:
     arp_discovery: ArpDiscoveryConfig
     home_assistant_discovery: HomeAssistantDiscoveryConfig
     webui: WebUIConfig
+    timeout_seconds: int
     log_level: str
 
 
@@ -82,6 +83,7 @@ def parse_config(raw: dict[str, Any]) -> Config:
             log_lines=webui["log_lines"],
             humanize_datetime=webui["humanize_datetime"],
         ),
+        timeout_seconds=raw["timeout_seconds"],
         log_level=raw["log_level"],
     )
 

@@ -1,4 +1,5 @@
 import logging
+import asyncio
 from datetime import datetime
 from dataclasses import asdict, dataclass
 
@@ -61,6 +62,8 @@ class App:
             for mac, alias in self.aliases.items()
         }
 
+        self.tasks = []
+
         self.dns = DNSRouting()
 
         self.firewall = Firewall(
@@ -93,10 +96,20 @@ class App:
         await self.discovery.start()
         await self.web.start()
 
+        self.tasks.append(asyncio.create_task(self.device_timeout_loop()))
+
         LOGGER.info("Started")
 
     async def stop(self):
         LOGGER.info("Stopping")
+
+        for task in self.tasks:
+            task.cancel()
+
+            await asyncio.gather(
+                *self.tasks,
+                return_exceptions=True,
+            )
 
         await self.web.stop()
         await self.discovery.stop()
@@ -104,6 +117,38 @@ class App:
         await self.dns.stop()
 
         LOGGER.info("Stopped")
+
+    async def device_timeout_loop(self):
+        while True:
+            now = datetime.now()
+
+            for mac, state in self.devices.items():
+                if state.status != "known" or state.last_confirmed is None:
+                    continue
+
+                seconds = (now - state.last_confirmed).total_seconds()
+
+                if seconds < self.config.timeout_seconds:
+                    continue
+
+                alias = self.aliases[mac]
+
+                LOGGER.info(
+                    "Device no longer confirmed: %s",
+                    mac,
+                )
+
+                state.status = "unknown"
+                state.ip = None
+                state.hostname = None
+
+                if alias.virtual_hostname:
+                    await self.dns.remove_route(alias.virtual_hostname)
+
+                if alias.virtual_ip:
+                    await self.firewall.remove_route(alias.virtual_ip)
+
+            await asyncio.sleep(5)
 
     def get_devices(self):
         devices = []
