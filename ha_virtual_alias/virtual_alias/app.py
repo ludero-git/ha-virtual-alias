@@ -55,7 +55,7 @@ class App:
         self.devices = {
             mac: DeviceState(
                 friendly_name=alias.friendly_name,
-                mac=alias.mac,
+                mac=alias.mac.lower(),
                 virtual_ip=str(alias.virtual_ip) if alias.virtual_ip else None,
                 virtual_hostname=alias.virtual_hostname,
             )
