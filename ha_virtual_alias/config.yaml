@@ -25,7 +25,10 @@ options:
   arp_discovery:
     enabled: true
     interval_seconds: 60
-    exclude_interfaces: []
+    exclude_interfaces:
+      - lo
+      - hassio
+      - docker0
   home_assistant_discovery:
     enabled: true
     include_zeroconf: false

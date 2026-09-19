@@ -9,7 +9,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 
 from .api import WebsocketAPI
-from .const import EXCLUDED_INTERFACES
 
 LOGGER = logging.getLogger(__name__)
 
@@ -136,12 +135,9 @@ class Discovery:
 
     def _get_networks(self):
         networks = set()
-        excluded_interfaces = EXCLUDED_INTERFACES | set(
-            self.arp_config.exclude_interfaces
-        )
 
         for iface, addrs in psutil.net_if_addrs().items():
-            if iface in excluded_interfaces:
+            if iface in self.arp_config.exclude_interfaces:
                 continue
 
             for addr in addrs:
