@@ -178,6 +178,7 @@ class DNSRouting:
 
             self.servers = None
 
+        await self.rest_api.close()
         await self._stop_dnsmasq()
 
         LOGGER.debug("DNS Routing stopped")
