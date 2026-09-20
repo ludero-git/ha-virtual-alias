@@ -2,6 +2,7 @@ name: Virtual Alias
 version: "0.1.0"
 slug: virtual_alias
 description: Persistent virtual hostnames and IPs for LAN devices
+stage: experimental
 startup: services
 boot: auto
 init: false
