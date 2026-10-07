@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Discovered devices added in API and UI to show a list of discovered network devices.
+
 ## 0.2.0 - 20/09/2026
 
 ### Added

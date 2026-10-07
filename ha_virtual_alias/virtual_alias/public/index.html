@@ -85,11 +85,37 @@
                 <button class="modal-close" id="findCloseBtn" type="button" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body">
-                <label for="findInput">Hostname or IP</label>
-                <input type="text" id="findInput" placeholder="e.g. 192.168.1.20 or myhost" autocomplete="off">
-                <div class="modal-actions">
-                    <button class="btn" id="findCancelBtn" type="button">Cancel</button>
-                    <button class="btn btn-primary" id="findSubmitBtn" type="button">Find</button>
+                <div class="modal-section-head">
+                    <h3>Discovered</h3>
+                    <button class="btn" id="discoverBtn" type="button" aria-label="Refresh discovered devices">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10" />
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="table-wrap modal-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>MAC address</th>
+                                <th>IP</th>
+                                <th>Hostname</th>
+                            </tr>
+                        </thead>
+                        <tbody id="discoveredBody"></tbody>
+                    </table>
+                </div>
+                <h3>Manual</h3>
+                <div class="manual-row">
+                    <input type="text" id="findInput" placeholder="Hostname or IP, e.g. 192.168.1.20" aria-label="Hostname or IP" autocomplete="off">
+                    <button class="btn" id="findSubmitBtn" type="button" aria-label="Find">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="7" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </button>
                 </div>
                 <div class="modal-result" id="findResult"></div>
             </div>
