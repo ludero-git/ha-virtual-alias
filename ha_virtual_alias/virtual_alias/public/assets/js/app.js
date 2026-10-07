@@ -10,10 +10,11 @@ const el = {
     findBtn: document.getElementById("findBtn"),
     findOverlay: document.getElementById("findOverlay"),
     findCloseBtn: document.getElementById("findCloseBtn"),
-    findCancelBtn: document.getElementById("findCancelBtn"),
     findSubmitBtn: document.getElementById("findSubmitBtn"),
     findInput: document.getElementById("findInput"),
-    findResult: document.getElementById("findResult")
+    findResult: document.getElementById("findResult"),
+    discoverBtn: document.getElementById("discoverBtn"),
+    discoveredBody: document.getElementById("discoveredBody")
 };
 
 const ENTRIES_INTERVAL = 5000;
@@ -37,6 +38,9 @@ const api = {
     },
     findMac(query) {
         return this.get(`find?query=${encodeURIComponent(query)}`);
+    },
+    discovered() {
+        return this.get("discovered");
     }
 };
 
@@ -78,6 +82,21 @@ function renderEntries(entries) {
     }).join("");
 }
 
+function renderDiscovered(data) {
+    if (!data.devices?.length) {
+        el.discoveredBody.innerHTML = `<tr><td colspan="3" class="unset">${escapeHtml(data.message)}</td></tr>`;
+        return;
+    }
+
+    el.discoveredBody.innerHTML = data.devices.map(device => `
+        <tr>
+            <td data-label="MAC address">${field(device.mac)}</td>
+            <td data-label="IP">${field(device.ip)}</td>
+            <td data-label="Hostname">${field(device.hostname)}</td>
+        </tr>
+    `).join("");
+}
+
 function stampUpdatedTime() {
     el.updatedLabel.textContent = `Updated ${new Date().toLocaleTimeString([], {
         hour: "2-digit",
@@ -107,6 +126,28 @@ async function loadEntries() {
         ]);
 
         el.refreshBtn.classList.remove("spinning");
+    }
+}
+
+async function loadDiscovered() {
+    el.discoverBtn.classList.add("spinning");
+
+    try {
+        renderDiscovered(await api.discovered());
+    } catch (err) {
+        console.error("could not load discovered devices:", err);
+        el.discoveredBody.innerHTML = '<tr><td colspan="3" class="unset">Discovery failed, try again.</td></tr>';
+    } finally {
+        await Promise.race([
+            new Promise(resolve =>
+                el.discoverBtn.addEventListener("animationiteration", resolve, {
+                    once: true,
+                })
+            ),
+            new Promise(resolve => setTimeout(resolve, 800)),
+        ]);
+
+        el.discoverBtn.classList.remove("spinning");
     }
 }
 
@@ -166,6 +207,7 @@ function openFindDialog() {
     el.findResult.className = "modal-result";
     el.findInput.value = "";
     el.findInput.focus();
+    loadDiscovered();
 }
 
 function closeFindDialog() {
@@ -211,8 +253,8 @@ el.hideBtn.addEventListener("click", () => {
 
 el.findBtn.addEventListener("click", openFindDialog);
 el.findCloseBtn.addEventListener("click", closeFindDialog);
-el.findCancelBtn.addEventListener("click", closeFindDialog);
 el.findSubmitBtn.addEventListener("click", submitFind);
+el.discoverBtn.addEventListener("click", loadDiscovered);
 
 el.findOverlay.addEventListener("click", event => {
     if (event.target === el.findOverlay) closeFindDialog();

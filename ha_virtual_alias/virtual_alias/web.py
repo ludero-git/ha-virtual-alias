@@ -110,6 +110,18 @@ class Web:
         def info():
             return jsonify(self.info)
 
+        @self.app.get("/api/discovered")
+        async def discovered():
+            if not self.core.discovery.devices:
+                return jsonify(devices=None, message="No devices discovered yet")
+
+            devices = [
+                {"mac": mac, "ip": info.ip, "hostname": info.hostname}
+                for mac, info in self.core.discovery.devices.items()
+            ]
+
+            return jsonify(devices=devices, message=None)
+
         @self.app.get("/api/find")
         async def find():
             query = request.args.get("query", "").lower().strip()
