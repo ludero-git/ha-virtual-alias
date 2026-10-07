@@ -76,9 +76,6 @@ class Discovery:
         mac = mac.lower()
         hostname = self._normalize_hostname(hostname)
 
-        if mac not in self.macs:
-            return
-
         now = datetime.now(timezone.utc)
 
         device = self.devices.get(mac)
@@ -352,21 +349,13 @@ class Discovery:
             )
             return
 
-        if mac not in self.macs:
-            LOGGER.debug(
-                "Ignoring Zeroconf device %s at %s, MAC not monitored",
-                mac,
-                ip,
-            )
-            return
-
         service_type = type.rstrip(".")
         device_name = name.rstrip(".").removesuffix(service_type).rstrip(".")
 
         hostname = await self._lookup_hostname_for_ip(ip) or device_name
 
         LOGGER.debug(
-            "Found monitored Zeroconf device: mac=%s ip=%s hostname=%s",
+            "Found Zeroconf device: mac=%s ip=%s hostname=%s",
             mac,
             ip,
             hostname,
@@ -395,7 +384,6 @@ class Discovery:
                         response.psrc,
                     )
                     for _, response in responses
-                    if response.hwsrc.lower() in self.macs
                 ]
 
                 await asyncio.gather(
@@ -421,9 +409,6 @@ class Discovery:
                 mac = device["mac_address"].lower()
                 ip = device["ip_address"]
                 hostname = device.get("hostname")
-
-                if mac not in self.macs:
-                    continue
 
                 try:
                     address = ipaddress.ip_address(ip)
